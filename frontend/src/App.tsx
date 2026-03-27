@@ -4,9 +4,9 @@ import { useNavigate } from 'react-router-dom'
 function App() {
   const navigate = useNavigate()
 
-  const handleLogin = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault()
-    navigate('/login')
+    navigate('/profile')
   }
 
   return (
@@ -24,7 +24,7 @@ function App() {
 
         <button
           className="stepin"
-          onClick={handleLogin}
+          onClick={handleProfile}
         >
           Login
         </button>
