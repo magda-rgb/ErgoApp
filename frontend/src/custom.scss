@@ -1,0 +1,19 @@
+$primary: #6610f2;
+
+@import "bootstrap/scss/bootstrap";
+
+body {
+  margin: 0;
+}
+
+h1, h2 {
+  color: shade-color($primary, 60%);
+}
+
+.display-4 {
+  color: $primary !important;
+}
+
+.card-header {
+  font-weight: 600;
+}
