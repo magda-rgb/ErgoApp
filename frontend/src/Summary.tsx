@@ -11,7 +11,6 @@ const API_URL = 'http://localhost:8000/calculate_insurance'
 
 function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Element {
   const navigate = useNavigate()
-  const [riskResult, setRiskResult] = useState<number | null>(null)
   const [riskLevel, setRiskLevel] = useState<string>('')
   const [error, setError] = useState<string>('')
   const [loading, setLoading] = useState<boolean>(false)
@@ -19,7 +18,6 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
   const handleSubmit = async (): Promise<void> => {
     setLoading(true)
     setError('')
-    setRiskResult(null)
     setRiskLevel('')
 
     try {
@@ -41,7 +39,6 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
       }
 
       const data = await response.json()
-      setRiskResult(data.risk)
       setRiskLevel(data.risk_level)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
