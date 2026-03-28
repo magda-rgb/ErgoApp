@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { type ProfileData } from './AppRoutes.tsx'
+import { type ProfileData } from './types'
 
 interface ProfileFormProps {
   data: ProfileData
@@ -19,10 +19,10 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
   const [errors, setErrors] = useState<ProfileFormErrors>({})
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { name, value, type } = e.target
+    const { name, value } = e.target
     setData(prev => ({
       ...prev,
-      [name]: type === 'number' ? Number(value) : value,
+      [name]: value,
     }))
   }
 
@@ -32,7 +32,8 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
 
     if (!data.firstName.trim()) newErrors.firstName = 'First name is required'
     if (!data.lastName.trim()) newErrors.lastName = 'Last name is required'
-    if (data.age < 18 || data.age > 100) newErrors.age = 'Age must be between 18 and 100'
+    const ageNum = Number(data.age)
+    if (!data.age || isNaN(ageNum) || ageNum < 18 || ageNum > 100) newErrors.age = 'Age must be between 18 and 100'
     if (!data.city.trim()) newErrors.city = 'City is required'
 
     setErrors(newErrors)
@@ -55,6 +56,7 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
                 id="firstName"
                 name="firstName"
                 type="text"
+                placeholder="Jan"
                 className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
                 value={data.firstName}
                 onChange={handleChange}
@@ -68,6 +70,7 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
                 id="lastName"
                 name="lastName"
                 type="text"
+                placeholder="Kowalski"
                 className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
                 value={data.lastName}
                 onChange={handleChange}
@@ -76,13 +79,14 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="age" className="form-label">Age</label>
+              <label htmlFor="age" className="form-label" >Age</label>
               <input
                 id="age"
                 name="age"
                 type="number"
                 min={18}
                 max={100}
+                placeholder="25"
                 className={`form-control ${errors.age ? 'is-invalid' : ''}`}
                 value={data.age}
                 onChange={handleChange}
@@ -96,6 +100,7 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
                 id="city"
                 name="city"
                 type="text"
+                placeholder="Warszawa"
                 className={`form-control ${errors.city ? 'is-invalid' : ''}`}
                 value={data.city}
                 onChange={handleChange}
