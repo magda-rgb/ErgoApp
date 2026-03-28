@@ -1,34 +1,26 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { type ProfileData } from './AppRoutes.tsx'
 
-interface FormData {
-  firstName: string
-  lastName: string
-  age: number
-  city: string
+interface ProfileFormProps {
+  data: ProfileData
+  setData: React.Dispatch<React.SetStateAction<ProfileData>>
 }
 
-interface FormErrors {
+interface ProfileFormErrors {
   firstName?: string
   lastName?: string
   age?: string
   city?: string
 }
 
-function ProfileForm(): React.JSX.Element {
+function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
   const navigate = useNavigate()
-
-  const [formData, setFormData] = useState<FormData>({
-    firstName: '',
-    lastName: '',
-    age: 0,
-    city: '',
-  })
-  const [errors, setErrors] = useState<FormErrors>({})
+  const [errors, setErrors] = useState<ProfileFormErrors>({})
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { name, value, type } = e.target
-    setFormData(prev => ({
+    setData(prev => ({
       ...prev,
       [name]: type === 'number' ? Number(value) : value,
     }))
@@ -36,16 +28,16 @@ function ProfileForm(): React.JSX.Element {
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
-    const newErrors: FormErrors = {}
+    const newErrors: ProfileFormErrors = {}
 
-    if (!formData.firstName.trim()) newErrors.firstName = 'First name is required'
-    if (!formData.lastName.trim()) newErrors.lastName = 'Last name is required'
-    if (formData.age < 18 || formData.age > 100) newErrors.age = 'Age must be between 18 and 100'
-    if (!formData.city.trim()) newErrors.city = 'City is required'
+    if (!data.firstName.trim()) newErrors.firstName = 'First name is required'
+    if (!data.lastName.trim()) newErrors.lastName = 'Last name is required'
+    if (data.age < 18 || data.age > 100) newErrors.age = 'Age must be between 18 and 100'
+    if (!data.city.trim()) newErrors.city = 'City is required'
 
     setErrors(newErrors)
     if (Object.keys(newErrors).length === 0) {
-      console.log(formData)
+      navigate('/InsuranceForm')
     }
   }
 
@@ -64,7 +56,7 @@ function ProfileForm(): React.JSX.Element {
                 name="firstName"
                 type="text"
                 className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                value={formData.firstName}
+                value={data.firstName}
                 onChange={handleChange}
               />
               {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
@@ -77,7 +69,7 @@ function ProfileForm(): React.JSX.Element {
                 name="lastName"
                 type="text"
                 className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                value={formData.lastName}
+                value={data.lastName}
                 onChange={handleChange}
               />
               {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
@@ -92,7 +84,7 @@ function ProfileForm(): React.JSX.Element {
                 min={18}
                 max={100}
                 className={`form-control ${errors.age ? 'is-invalid' : ''}`}
-                value={formData.age}
+                value={data.age}
                 onChange={handleChange}
               />
               {errors.age && <div className="invalid-feedback">{errors.age}</div>}
@@ -105,7 +97,7 @@ function ProfileForm(): React.JSX.Element {
                 name="city"
                 type="text"
                 className={`form-control ${errors.city ? 'is-invalid' : ''}`}
-                value={formData.city}
+                value={data.city}
                 onChange={handleChange}
               />
               {errors.city && <div className="invalid-feedback">{errors.city}</div>}
@@ -116,7 +108,7 @@ function ProfileForm(): React.JSX.Element {
                 Cancel
               </button>
               <button type="submit" className="btn btn-primary">
-                Save
+                Save and continue
               </button>
             </div>
           </form>
