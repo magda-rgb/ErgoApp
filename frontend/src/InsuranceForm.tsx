@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { type InsuranceData } from './AppRoutes.tsx'
+import { type InsuranceData } from './types'
 
 interface InsuranceFormProps {
   data: InsuranceData
@@ -20,7 +20,7 @@ const yearOptions = Array.from({ length: currentYear - 1959 }, (_, i) => current
 function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element {
   const navigate = useNavigate()
   const [errors, setErrors] = useState<InsuranceFormErrors>({})
-  const [showAdditional, setShowAdditional] = useState<boolean>(false)
+  const [showAdditional, setShowAdditional] = useState<boolean>(data.additionalCoverage.length > 0)
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     const { name, value, type } = e.target
@@ -96,8 +96,9 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
                 name="coverageAmount"
                 type="number"
                 min={1000}
+                placeholder="5000"
                 className={`form-control ${errors.coverageAmount ? 'is-invalid' : ''}`}
-                value={data.coverageAmount}
+                value={data.coverageAmount || ''}
                 onChange={handleChange}
               />
               {errors.coverageAmount && <div className="invalid-feedback">{errors.coverageAmount}</div>}
@@ -109,7 +110,11 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
                 type="checkbox"
                 className="form-check-input"
                 checked={showAdditional}
-                onChange={() => setShowAdditional(prev => !prev)}
+                onChange={() => {
+                  const next = !showAdditional
+                  setShowAdditional(next)
+                  if (!next) setData(prev => ({ ...prev, additionalCoverage: '' }))
+                }}
               />
               <label htmlFor="showAdditional" className="form-check-label">Add additional coverage</label>
             </div>

@@ -1,13 +1,13 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { type ProfileData, type InsuranceData } from './AppRoutes'
+import { type ProfileData, type InsuranceData } from './types'
 
 interface SummaryProps {
   profileData: ProfileData
   insuranceData: InsuranceData
 }
 
-const API_URL = 'http://localhost:8000/calculate_insurance'
+const API_URL = `${import.meta.env.VITE_API_URL}/calculate_insurance`
 
 function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Element {
   const navigate = useNavigate()
@@ -28,17 +28,25 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          age: profileData.age,
+          age: Number(profileData.age),
           coverage: insuranceData.coverageAmount,
           insurance_type: insuranceData.insuranceType,
         }),
       })
 
+      const text = await response.text()
+      if (!text) throw new Error('Empty response from server — is the API running?')
+
+      const data = JSON.parse(text)
+
       if (!response.ok) {
-        throw new Error(response.statusText)
+        const detail = data.detail
+        const message = Array.isArray(detail)
+          ? detail.map((e: { msg: string }) => e.msg).join(', ')
+          : detail ?? response.statusText
+        throw new Error(message)
       }
 
-      const data = await response.json()
       setRiskLevel(data.risk_level)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
@@ -91,7 +99,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
           )}
 
           <div className="d-flex justify-content-end gap-2">
-            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/InsuranceForm')}>
+            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/insuranceForm')}>
               Back
             </button>
             <button
