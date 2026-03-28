@@ -99,7 +99,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
           )}
 
           <div className="d-flex justify-content-end gap-2">
-            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/insuranceForm')}>
+            <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/InsuranceForm')}>
               Back
             </button>
             <button

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 import { type ProfileData, type InsuranceData } from './types'
 import ProfileForm from './ProfileForm'
 import InsuranceForm from './InsuranceForm'
@@ -20,28 +20,11 @@ function AppRoutes(): React.JSX.Element {
     additionalCoverage: '',
   })
 
-  const isProfileComplete = profileData.firstName.trim() !== ''
-    && profileData.lastName.trim() !== ''
-    && profileData.age !== ''
-    && profileData.city.trim() !== ''
-
-  const isInsuranceComplete = isProfileComplete
-    && insuranceData.insuranceType !== ''
-    && insuranceData.coverageAmount >= 1000
-
   return (
     <Routes>
       <Route path="/profile" element={<ProfileForm data={profileData} setData={setProfileData} />} />
-      <Route path="/insuranceForm" element={
-        isProfileComplete
-          ? <InsuranceForm data={insuranceData} setData={setInsuranceData} />
-          : <Navigate to="/profile" replace />
-      } />
-      <Route path="/summary" element={
-        isInsuranceComplete
-          ? <Summary profileData={profileData} insuranceData={insuranceData} />
-          : <Navigate to="/profile" replace />
-      } />
+      <Route path="/InsuranceForm" element={<InsuranceForm data={insuranceData} setData={setInsuranceData} />} />
+      <Route path="/summary" element={<Summary profileData={profileData} insuranceData={insuranceData} />} />
     </Routes>
   )
 }
