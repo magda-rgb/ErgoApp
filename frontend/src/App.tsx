@@ -1,35 +1,25 @@
-import './App.css'
 import { useNavigate } from 'react-router-dom'
 
-function App() {
+function App(): React.JSX.Element {
   const navigate = useNavigate()
 
-  const handleProfile = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault()
-    navigate('/profile')
-  }
-
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          
-        </div>
-        <div>
-          <h1>Pierwsza strona</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
+    <div className="container d-flex justify-content-center align-items-center min-vh-100">
+      <div className="row justify-content-center w-100">
+        <div className="col-md-6 text-center">
+          <h1 className="display-4 fw-bold mb-3">ErgoApp</h1>
+          <p className="text-muted mb-4">Insurance risk calculator. Fill in your details to get started.</p>
 
-        <button
-          className="stepin"
-          onClick={handleProfile}
-        >
-          Login
-        </button>
-      </section>
-    </>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => navigate('/profile')}
+          >
+            Get started
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }
 
