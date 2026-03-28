@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI,HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -11,13 +11,12 @@ INSURANCE_TYPE_FACTORS: dict[str, int] = {
 
 
 class RiskRequest(BaseModel):
-    age: int = Field(ge=18)
+    age: int = Field(ge=18,le=100)
     coverage: int = Field(ge=1000, le=10000)
     insurance_type: str
 
 
 class RiskResponse(BaseModel):
-    risk: float
     risk_level: str
 
 
@@ -35,7 +34,7 @@ app.add_middleware(
 @app.post("/calculate_insurance", response_model=RiskResponse)
 async def calculate_insurance(request: RiskRequest) -> RiskResponse:
     if request.insurance_type not in INSURANCE_TYPE_FACTORS:
-        return {"error": "Invalid insurance type"}
+        raise HTTPException(status_code=400, detail="Invalid insurance type")
 
     risk_value = (request.age / 10) + (request.coverage / 10000) + INSURANCE_TYPE_FACTORS[request.insurance_type]
 
@@ -46,4 +45,4 @@ async def calculate_insurance(request: RiskRequest) -> RiskResponse:
     else:
         risk_level = "High"
 
-    return RiskResponse(risk=risk_value, risk_level=risk_level)
+    return RiskResponse(risk_level=risk_level)
