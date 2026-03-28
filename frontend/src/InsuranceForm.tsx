@@ -41,7 +41,7 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
 
     setErrors(newErrors)
     if (Object.keys(newErrors).length === 0) {
-      console.log(data)
+      navigate('/summary')
     }
   }
 

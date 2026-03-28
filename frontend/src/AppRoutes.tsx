@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import ProfileForm from './ProfileForm .tsx'
 import InsuranceForm from './InsuranceForm.tsx'
+import Summary from './Summary'
 
 export interface ProfileData {
   firstName: string
@@ -36,6 +37,7 @@ function AppRoutes(): React.JSX.Element {
     <Routes>
       <Route path="/profile" element={<ProfileForm data={profileData} setData={setProfileData} />} />
       <Route path="/InsuranceForm" element={<InsuranceForm data={insuranceData} setData={setInsuranceData} />} />
+      <Route path="/summary" element={<Summary profileData={profileData} insuranceData={insuranceData} />} />
     </Routes>
   )
 }
