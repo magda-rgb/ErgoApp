@@ -38,7 +38,7 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
 
     if (!data.insuranceType) newErrors.insuranceType = 'Please select an insurance type'
     if (data.insuranceType === 'car' && !data.vehicleYear) newErrors.vehicleYear = 'Please select the vehicle year'
-    if (data.coverageAmount < 1000) newErrors.coverageAmount = 'Coverage amount must be at least 1,000'
+    if (data.coverageAmount < 1000 || data.coverageAmount > 10000) newErrors.coverageAmount = 'Coverage amount must be between 1,000 and 10,000'
     if (showAdditional && !data.additionalCoverage.trim()) newErrors.additionalCoverage = 'Please enter the additional coverage'
 
     setErrors(newErrors)
@@ -89,7 +89,7 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
           </div>
         )}
 
-        <FormField label="Coverage amount" name="coverageAmount" type="number" value={data.coverageAmount || ''} onChange={handleChange} error={errors.coverageAmount} placeholder="5000" min={1000} />
+        <FormField label="Coverage amount" name="coverageAmount" type="number" value={data.coverageAmount || ''} onChange={handleChange} error={errors.coverageAmount} placeholder="5000" min={1000} max={10000} />
 
         <div className="mb-3 form-check">
           <input
