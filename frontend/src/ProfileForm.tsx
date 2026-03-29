@@ -1,6 +1,8 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData } from './types'
+import FormField from './components/FormField'
+import PageLayout from './components/PageLayout'
 
 interface ProfileFormProps {
   data: ProfileData
@@ -43,83 +45,26 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="row justify-content-center w-100">
-        <div className="col-md-6">
-          <h2 className="mb-2">Personal Information</h2>
-          <p className="text-muted mb-4">Fill in your personal details.</p>
+    <PageLayout>
+      <h2 className="mb-2">Personal Information</h2>
+      <p className="text-muted mb-4">Fill in your personal details.</p>
 
-          <form onSubmit={handleSubmit} noValidate>
-            <div className="mb-3">
-              <label htmlFor="firstName" className="form-label">First name</label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                placeholder="Jan"
-                className={`form-control ${errors.firstName ? 'is-invalid' : ''}`}
-                value={data.firstName}
-                onChange={handleChange}
-              />
-              {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
-            </div>
+      <form onSubmit={handleSubmit} noValidate>
+        <FormField label="First name" name="firstName" value={data.firstName} onChange={handleChange} error={errors.firstName} placeholder="Jan" />
+        <FormField label="Last name" name="lastName" value={data.lastName} onChange={handleChange} error={errors.lastName} placeholder="Kowalski" />
+        <FormField label="Age" name="age" type="number" value={data.age} onChange={handleChange} error={errors.age} placeholder="25" min={18} max={100} />
+        <FormField label="City" name="city" value={data.city} onChange={handleChange} error={errors.city} placeholder="Warszawa" />
 
-            <div className="mb-3">
-              <label htmlFor="lastName" className="form-label">Last name</label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                placeholder="Kowalski"
-                className={`form-control ${errors.lastName ? 'is-invalid' : ''}`}
-                value={data.lastName}
-                onChange={handleChange}
-              />
-              {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="age" className="form-label" >Age</label>
-              <input
-                id="age"
-                name="age"
-                type="number"
-                min={18}
-                max={100}
-                placeholder="25"
-                className={`form-control ${errors.age ? 'is-invalid' : ''}`}
-                value={data.age}
-                onChange={handleChange}
-              />
-              {errors.age && <div className="invalid-feedback">{errors.age}</div>}
-            </div>
-
-            <div className="mb-3">
-              <label htmlFor="city" className="form-label">City</label>
-              <input
-                id="city"
-                name="city"
-                type="text"
-                placeholder="Warszawa"
-                className={`form-control ${errors.city ? 'is-invalid' : ''}`}
-                value={data.city}
-                onChange={handleChange}
-              />
-              {errors.city && <div className="invalid-feedback">{errors.city}</div>}
-            </div>
-
-            <div className="d-flex justify-content-end gap-2">
-              <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/')}>
-                Cancel
-              </button>
-              <button type="submit" className="btn btn-primary">
-                Save and continue
-              </button>
-            </div>
-          </form>
+        <div className="d-flex justify-content-end gap-2">
+          <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/')}>
+            Cancel
+          </button>
+          <button type="submit" className="btn btn-primary">
+            Save and continue
+          </button>
         </div>
-      </div>
-    </div>
+      </form>
+    </PageLayout>
   )
 }
 
