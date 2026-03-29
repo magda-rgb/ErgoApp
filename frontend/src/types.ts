@@ -1,7 +1,7 @@
 export interface ProfileData {
     firstName: string
     lastName: string
-    age: number
+    age: string
     city: string
   }
   
