@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData, type InsuranceData } from './types'
+import { logError } from './logger'
 import PageLayout from './components/PageLayout'
 
 interface SummaryProps {
@@ -50,6 +51,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
 
       setRiskLevel(data.risk_level)
     } catch (err) {
+      logError('Summary.handleSubmit', err)
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)

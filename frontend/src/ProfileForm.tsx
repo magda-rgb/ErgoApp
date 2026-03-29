@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData } from './types'
+import { logError } from './logger'
 import FormField from './components/FormField'
 import PageLayout from './components/PageLayout'
 
@@ -42,7 +43,9 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
     if (!data.city.trim()) newErrors.city = 'City is required'
 
     setErrors(newErrors)
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length > 0) {
+      logError('ProfileForm.validation', new Error(Object.values(newErrors).join(', ')))
+    } else {
       navigate('/InsuranceForm')
     }
   }
