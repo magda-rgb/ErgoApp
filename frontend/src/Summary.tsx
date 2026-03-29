@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData, type InsuranceData } from './types'
+<<<<<<< Updated upstream
+=======
+import PageLayout from './components/PageLayout'
+import { logError } from './logger'
+>>>>>>> Stashed changes
 
 interface SummaryProps {
   profileData: ProfileData
@@ -49,6 +54,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
 
       setRiskLevel(data.risk_level)
     } catch (err) {
+      logError('Summary.handleSubmit', err)
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
