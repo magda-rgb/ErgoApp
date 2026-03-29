@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type InsuranceData } from './types'
+import { logError } from './logger'
 
 interface InsuranceFormProps {
   data: InsuranceData
@@ -40,7 +41,9 @@ function InsuranceForm({ data, setData }: InsuranceFormProps): React.JSX.Element
     if (showAdditional && !data.additionalCoverage.trim()) newErrors.additionalCoverage = 'Please enter the additional coverage'
 
     setErrors(newErrors)
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length > 0) {
+      logError('InsuranceForm.validation', new Error(Object.values(newErrors).join(', ')))
+    } else {
       navigate('/summary')
     }
   }
