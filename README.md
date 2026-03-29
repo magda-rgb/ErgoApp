@@ -48,3 +48,16 @@ docker compose up --build
 3. Open the page:
 
 Frontend: http://localhost:5173 | API: http://localhost:8000
+
+
+## Possible development
+
+Given extra time and budget, the application could be expanded in the following ways:
+
+1. **More detailed car insurance** — when car is chosen, add fields for car brand, model and mileage to make the risk calculation more accurate
+2. **User accounts and history** — add registration and login so users can save and review their past insurance calculations
+3. **Smarter risk calculation** — use the user's previous insurance history as an additional factor in risk calculation for more accurate and personalized results
+4. **Database integration** — store submitted forms and results in a database instead of calculating on the fly
+5. **Unit and integration tests** — add frontend tests (Vitest) and backend tests (pytest) and run them in the workflow
+6. **UI/UX improvements** — enhance the visual side with animations, add progress bar showing current form step and responsive design for mobile devices
+7. **Production deployment** — replace the Vite dev server in Docker with Nginx for production build, add HTTPS and deploy to a cloud provider
