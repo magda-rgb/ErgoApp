@@ -36,19 +36,9 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
         }),
       })
 
-      const text = await response.text()
-      if (!text) throw new Error('Empty response from server — is the API running?')
+      if (!response.ok) throw new Error('Server error')
 
-      const data = JSON.parse(text)
-
-      if (!response.ok) {
-        const detail = data.detail
-        const message = Array.isArray(detail)
-          ? detail.map((e: { msg: string }) => e.msg).join(', ')
-          : detail ?? response.statusText
-        throw new Error(message)
-      }
-
+      const data = await response.json()
       setRiskLevel(data.risk_level)
     } catch (err) {
       logError('Summary.handleSubmit', err)
