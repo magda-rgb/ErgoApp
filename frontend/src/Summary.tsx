@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData, type InsuranceData } from './types'
+import PageLayout from './components/PageLayout'
 
 interface SummaryProps {
   profileData: ProfileData
@@ -56,9 +57,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
   }
 
   return (
-    <div className="container d-flex justify-content-center align-items-center min-vh-100">
-      <div className="row justify-content-center w-100">
-        <div className="col-md-6">
+    <PageLayout>
           <h2 className="mb-2">Summary</h2>
           <p className="text-muted mb-4">Review your information before submitting.</p>
 
@@ -111,9 +110,7 @@ function Summary({ profileData, insuranceData }: SummaryProps): React.JSX.Elemen
               {loading ? 'Submitting...' : 'Submit'}
             </button>
           </div>
-        </div>
-      </div>
-    </div>
+    </PageLayout>
   )
 }
 
