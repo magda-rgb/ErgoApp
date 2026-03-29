@@ -5,9 +5,9 @@ export interface ProfileData {
     city: string
   }
   
-  export interface InsuranceData {
-    insuranceType: string
-    vehicleYear: number
-    coverageAmount: number
-    additionalCoverage: string
-  }
+export interface InsuranceData {
+  insuranceType: string
+  vehicleYear: number
+  coverageAmount: number
+  additionalCoverage: string
+}
