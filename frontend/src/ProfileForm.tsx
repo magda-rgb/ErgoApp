@@ -32,8 +32,11 @@ function ProfileForm({ data, setData }: ProfileFormProps): React.JSX.Element {
     e.preventDefault()
     const newErrors: ProfileFormErrors = {}
 
+    const nameRegex = /^[\p{Letter}\s-]+$/u
     if (!data.firstName.trim()) newErrors.firstName = 'First name is required'
+    else if (!nameRegex.test(data.firstName)) newErrors.firstName = 'First name can only contain letters'
     if (!data.lastName.trim()) newErrors.lastName = 'Last name is required'
+    else if (!nameRegex.test(data.lastName)) newErrors.lastName = 'Last name can only contain letters'
     const ageNum = Number(data.age)
     if (!data.age || isNaN(ageNum) || ageNum < 18 || ageNum > 100) newErrors.age = 'Age must be between 18 and 100'
     if (!data.city.trim()) newErrors.city = 'City is required'
