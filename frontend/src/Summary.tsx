@@ -1,11 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { type ProfileData, type InsuranceData } from './types'
-<<<<<<< Updated upstream
-=======
-import PageLayout from './components/PageLayout'
 import { logError } from './logger'
->>>>>>> Stashed changes
 
 interface SummaryProps {
   profileData: ProfileData
